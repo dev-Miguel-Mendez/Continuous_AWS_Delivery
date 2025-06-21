@@ -7,10 +7,6 @@ jobs:
   run_in_EC2:
     runs-on: ubuntu-latest
     environment: Test_Paiky_Environment #$ Optionally, create  a github environment to avoid duplicating secrets across repositories.
-    # env:
-    #   REPO_PATH: ${{ github.repository }} #* Example: # gives "dev-miguel/repo-name". We will use this to clone the repo initially. 
-    #   REPO_NAME: ${{ github.event.repository.name }} #$ Theoretically we could also make this as a Github secret. But since this provided out of the box we prefer using this.
-    #   DOCKER_PORT: ${{secrets.DOCKER_PORTS}} #¡ This is the only thing that needs to be changed repo-wise.
     steps:
       # - name: ENV TEST
       #   run: echo "$REPO_PATH" && echo "$REPO_NAME"
@@ -24,19 +20,21 @@ jobs:
           passphrase: ${{ secrets.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
 
           script: |
-            REPO_NAME="${{ github.event.repository.name }}"
-            REPO_PATH="${{ github.repository }}"
-            DOCKER_PORT="${{ secrets.DOCKER_PORTS }}"
+            #* Declaring variables for EC2 (it doesn't have access to "env")
+            UNIQUE_APP_NAME="${{ secrets.UNIQUE_APP_NAME }}"  #! UNIQUE_APP_NAME must be all lowercase and without underscores for Docker to accept it.
+            REPO_PATH="${{ github.repository }}"  #$ Example: # gives "dev-miguel/repo-name". We will use this to clone the repo initially. 
+            DOCKER_PORT="${{ secrets.DOCKER_PORTS }}"  #! This is the only thing that needs to be changed repo-wise.
             cd ~/vsCodeMain
+
             #* If the is no desired-folder with .git, it means the repo doesn't exist so we clone it INTO A DESIRED FOLDER NAME.
-            [ -d "$REPO_NAME/.git" ] || git clone git@github.com:$REPO_PATH.git "$REPO_NAME"
-            cd "$REPO_NAME" 
+            [ -d "$UNIQUE_APP_NAME/.git" ] || git clone git@github.com:$REPO_PATH.git "$UNIQUE_APP_NAME"
+            cd "$UNIQUE_APP_NAME" 
             git fetch origin 
             git merge origin/master
             #* Build and Run Docker
-            sudo docker rm -f "$REPO_NAME" || true
-            sudo docker build -t "$REPO_NAME" .
-            sudo docker run -d --name "$REPO_NAME" -p "$DOCKER_PORT":"$DOCKER_PORT"  "$REPO_NAME"
+            sudo docker rm -f "$UNIQUE_APP_NAME" || true
+            sudo docker build -t "$UNIQUE_APP_NAME" .
+            sudo docker run -d --name "$UNIQUE_APP_NAME" -p "$DOCKER_PORT":"$DOCKER_PORT"  "$UNIQUE_APP_NAME"
 
 
 
