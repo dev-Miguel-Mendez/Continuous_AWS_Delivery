@@ -10,7 +10,7 @@ jobs:
     env:
       REPO_PATH: ${{ github.repository }} #* Example: # gives "dev-miguel/repo-name". We will use this to clone the repo initially. 
       REPO_NAME: ${{ github.event.repository.name }} #$ Theoretically we could also make this as a Github secret. But since this provided out of the box we prefer using this.
-      DOCKER_PORT: $ {{secrets.DOCKER_PORTS}}
+      DOCKER_PORT: $ {{secrets.DOCKER_PORTS}} #¡ This is the only thing that needs to be changed repo-wise.
     steps:
       # - name: ENV TEST
       #   run: echo "$REPO_PATH" && echo "$REPO_NAME"
