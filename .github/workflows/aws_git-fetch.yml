@@ -25,7 +25,7 @@ jobs:
 
           script: |
             cd ~/vsCodeMain/$REPO_NAME
-            [-d .git ] || git clone git@github.com:$REPO_PATH.git . #* If the is no .git, it means the repo doesn't exist so we clone it.
+            [ -d .git ] || git clone git@github.com:$REPO_PATH.git . #* If the is no .git, it means the repo doesn't exist so we clone it.
             git fetch origin 
             git merge origin/master
 
