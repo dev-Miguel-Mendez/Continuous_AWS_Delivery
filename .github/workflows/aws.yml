@@ -5,6 +5,14 @@ on:
     branches: ["master"]
 
 jobs:
+
+  echo_test:
+    runs-on: ubuntu-latest
+    environment: Test_Paiky_Environment #$ Optionally, create  a github environment to avoid duplicating secrets across repositories.
+    steps:
+      - name: echo passphrase test DELETE:
+        run: echo ${{ secrets.EC2_SSH_PRIVATE_KEY_PASSPHRASE }}
+
   paiky_build:
     runs-on: ubuntu-latest #! REQUIRED FOR DOCKER - IT ALREADY HAS DOCKER INSTALLED
     steps:
