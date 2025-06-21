@@ -2,7 +2,7 @@ name: AWS
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
 
 jobs:
   paiky_build:
@@ -16,7 +16,6 @@ jobs:
         run: docker build -t priapisman677/test_dockerhub . #$ Read Notion, I left awesome content for DockerHub
       - name: Push image to Docker Hub
         run: docker push priapisman677/test_dockerhub:latest #* We will only pull the :latest in the EC2 instance. 
-
 
 
   #$ In this specific case it is not mandatory to make it to different jobs. It would be mandatorily when you need to execute commands in a different environment (runs-on). However I did it here to separate concerns logically. 
