@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: Test_Paiky_Environment #$ Optionally, create  a github environment to avoid duplicating secrets across repositories.
     env:
-      REPO_PATH: ${{ github.repository }} #* Example: # gives "dev-miguel/repo-name". We will use this to clone the repo initially. 
-      REPO_NAME: ${{ github.event.repository.name }} #$ Theoretically we could also make this as a Github secret. But since this provided out of the box we prefer using this.
-      DOCKER_PORT: ${{secrets.DOCKER_PORTS}} #¡ This is the only thing that needs to be changed repo-wise.
     steps:
       # - name: ENV TEST
       #   run: echo "$REPO_PATH" && echo "$REPO_NAME"
@@ -24,6 +21,9 @@ jobs:
           passphrase: ${{ secrets.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
 
           script: |
+            REPO_PATH: ${{ github.repository }} #* Example: # gives "dev-miguel/repo-name". We will use this to clone the repo initially. 
+            REPO_NAME: ${{ github.event.repository.name }} #$ Theoretically we could also make this as a Github secret. But since this provided out of the box we prefer using this.
+            DOCKER_PORT: ${{secrets.DOCKER_PORTS}} #¡ This is the only thing that needs to be changed repo-wise.
             cd ~/vsCodeMain/$REPO_NAME
             [ -d .git ] || git clone git@github.com:$REPO_PATH.git . #* If the is no .git, it means the repo doesn't exist so we clone it.
             git fetch origin 
