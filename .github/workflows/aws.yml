@@ -36,16 +36,16 @@ jobs:
           # passphrase: $ {{ secret.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
           #$ "script" is part of appleboy, "|" is part of YAML and means:  “Treat the following indented lines as a single multiline string.”  like "echo \"line 1\"\necho \"line 2\""
           script: |                                              #$ Quotes if password contains special characters
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p "${{ secrets.DOCKERHUB_PASSWORD }}"
-            docker pull priapisman677/test_dockerhub:latest
+            sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p "${{ secrets.DOCKERHUB_PASSWORD }}"
+            sudo docker pull priapisman677/test_dockerhub:latest
             #* Removing previous CONTAINER
-            docker rm -f node_app || true #$ "|| true" is ONLY to avoid throwing an error if the container is not running.
+            sudo docker rm -f node_app || true #$ "|| true" is ONLY to avoid throwing an error if the container is not running.
             #* Running new CONTAINER
 
 
                                   #¡ PICK THE CORRECT PORTS 
                                   #¡ FOR NOW JUST PRACTICE WITH GITHUB ACTIONS BUT YOU NEED TO CHANGE SOME THINGS IN ALL PROJECTS
-            docker run -d --name node_app -p 3002:3002  priapisman677/test_dockerhub:latest
+            sudo docker run -d --name node_app -p 3002:3002  priapisman677/test_dockerhub:latest
 
 
 
