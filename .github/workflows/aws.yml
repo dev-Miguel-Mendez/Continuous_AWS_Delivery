@@ -30,7 +30,10 @@ jobs:
           host: ${{secrets.EC2_HOST}} #$ for SSH, don't include port unless not using :22 . Example: 132.84.129.77.
           username: ${{secrets.EC2_USER}}
           key: ${{secrets.EC2_SSH_PRIVATE_KEY}} #! I BELIEVE it should be the private one for solving the ssh-secret and authenticate to the EC2 instance
-          passphrase: $ {{ secret.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
+
+          # ¡ JUST TESTING
+          passphrase: $ {{ urss }} #$ Only if required.
+          # passphrase: $ {{ secret.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
           #$ "script" is part of appleboy, "|" is part of YAML and means:  “Treat the following indented lines as a single multiline string.”  like "echo \"line 1\"\necho \"line 2\""
           script: |                                              #$ Quotes if password contains special characters
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p "${{ secrets.DOCKERHUB_PASSWORD }}"
