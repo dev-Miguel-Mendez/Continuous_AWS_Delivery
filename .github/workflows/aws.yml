@@ -11,9 +11,9 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
       - name: Login to Docker Hub                                 #$ Quotes if password contains special characters
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p "${{ secrets.DOCKERHUB_PASSWORD }}" #$ Read Notion, I left awesome content for DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p "${{ secrets.DOCKERHUB_PASSWORD }}" #$ Read Notion, I left awesome content for DockerHub.
       - name: Build image
-        run: docker build -t priapisman677/test_dockerhub . #$ Read Notion, I left awesome content for DockerHub
+        run: docker build -t priapisman677/test_dockerhub . #$ Read Notion, I left awesome content for DockerHub.
       - name: Push image to Docker Hub
         run: docker push priapisman677/test_dockerhub:latest #* We will only pull the :latest in the EC2 instance. 
 
@@ -27,15 +27,16 @@ jobs:
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{secrets.EC2_HOST}} #$ for SSH, don't include port unless not using :22 . Example: 132.84.129.77
+          host: ${{secrets.EC2_HOST}} #$ for SSH, don't include port unless not using :22 . Example: 132.84.129.77.
           username: ${{secrets.EC2_USER}}
           key: ${{secrets.EC2_SSH_PRIVATE_KEY}} #! I BELIEVE it should be the private one for solving the ssh-secret and authenticate to the EC2 instance
+          passphrase: $ {{ secret.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
           #$ "script" is part of appleboy, "|" is part of YAML and means:  “Treat the following indented lines as a single multiline string.”  like "echo \"line 1\"\necho \"line 2\""
           script: |                                              #$ Quotes if password contains special characters
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p "${{ secrets.DOCKERHUB_PASSWORD }}"
             docker pull priapisman677/test_dockerhub:latest
             #* Removing previous CONTAINER
-            docker rm -f node_app || true #$ "|| true" is ONLY to avoid throwing an error if the container is not running
+            docker rm -f node_app || true #$ "|| true" is ONLY to avoid throwing an error if the container is not running.
             #* Running new CONTAINER
 
 
