@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: echo passphrase test DELETE
         run: echo ${{ secrets.EC2_SSH_PRIVATE_KEY_PASSPHRASE }}
+        run: echo ${{ secrets.EC2_HOST }}
 
   paiky_build:
     runs-on: ubuntu-latest #! REQUIRED FOR DOCKER - IT ALREADY HAS DOCKER INSTALLED
@@ -24,6 +25,7 @@ jobs:
         run: docker build -t priapisman677/test_dockerhub . #$ Read Notion, I left awesome content for DockerHub.
       - name: Push image to Docker Hub
         run: docker push priapisman677/test_dockerhub:latest #* We will only pull the :latest in the EC2 instance. 
+
 
 
 
