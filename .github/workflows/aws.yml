@@ -32,7 +32,7 @@ jobs:
           key: ${{secrets.EC2_SSH_PRIVATE_KEY}} #! I BELIEVE it should be the private one for solving the ssh-secret and authenticate to the EC2 instance
 
           # ¡ JUST TESTING
-          passphrase: $ {{ urss }} #$ Only if required.
+          passphrase: "urss" #$ Only if required.
           # passphrase: $ {{ secret.EC2_SSH_PRIVATE_KEY_PASSPHRASE }} #$ Only if required.
           #$ "script" is part of appleboy, "|" is part of YAML and means:  “Treat the following indented lines as a single multiline string.”  like "echo \"line 1\"\necho \"line 2\""
           script: |                                              #$ Quotes if password contains special characters
