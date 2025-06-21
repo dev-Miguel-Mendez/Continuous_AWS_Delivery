@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: echo passphrase test DELETE
         run: echo ${{ secrets.EC2_SSH_PRIVATE_KEY_PASSPHRASE }}
+      - name: same test  
         run: echo ${{ secrets.EC2_HOST }}
 
   paiky_build:
